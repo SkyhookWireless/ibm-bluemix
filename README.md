@@ -1,6 +1,7 @@
 # truefix-watson
 
 This repository includes sample code to locate Raspberry Pi device connected via Watson IoT to the cload. The position estimate is done purely based on wifi scan of nearby access points and utlizes Skyhook Location API.  The code structure is:
+
       a) "truefix-device" folder - includes sample code to connect your Pi to Watson and report wifi scan
       b) "truefix-app" folder - includes sample server application code to subscribe and receive wifi scan events from the Pi and utilize Skyhook Location API to locate the device.
       
