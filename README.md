@@ -1,9 +1,9 @@
-# truefix-watson
+# skyhook-bluemix-watson
 
-This repository includes sample code to locate Raspberry Pi device connected via Watson IoT to the cload. The position estimate is done purely based on wifi scan of nearby access points and utlizes Skyhook Location API.  The code structure is:
+This repository includes sample code to locate Raspberry Pi device connected via Watson IoT to the cload. The position estimate is done purely based on Wi-Fi scan of nearby access points and utlizes Skyhook's Precision Location for IoT API.  The code structure is:
 
-      a) "truefix-device" folder - includes sample code to connect your Pi to Watson and report wifi scan
-      b) "truefix-app" folder - includes sample server application code to subscribe and receive wifi scan events from the Pi and utilize Skyhook Location API to locate the device.
+      a) "skyhook-device" folder - includes sample code to connect your Pi to Watson and report wifi scan
+      b) "skyhook-app" folder - includes sample server application code to subscribe and receive wifi scan events from the Pi and utilize Skyhook's Precision Location for IoT API to locate the device.
       
 Some more detailed steps can be found below:
 
@@ -24,23 +24,22 @@ Some more detailed steps can be found below:
           data={'wifiscan' : str(aps) }
           client.publishEvent("status", "json", data)
  
-  The code Pi client code is included in: "truefix-device" folder
+  The code Pi client code is included in: "skyhook-device" folder
   
-3. Obtain a location API key and URL from Skyhook (TruePosition) by emailing demo@trueposition.com.
-   TruePosition offers temporary demonstration keys and URLs at no charge.
+3. A Location API key and URL may be obtained from Skyhook by visiting https://my.skyhookwireless.com/, creating a user account and Precision Location project. Skyhook offers temporary demonstration keys and URLs at no charge.
 4. To locate your device based on the reported Wi-Fi scan events you must first configure your application to subscribe to device    
   reported events including JSON formated Wi-Fi scans. Configure your application via the following steps:
 
    a. Use the API key assigned by Bluemix for the device (Raspberry Pi for example) to receive and send (or subscribe). 
-   b. Once your application has subscribed and received events with a JSON formated Wi-Fi scan from your device, use the TrueFix Location API to position the device. The API is based on the Python function available at: "truefix-app" folder.
-   c. To integrate the function in your application, it is necessery first to initialize it by providing the TrueFix API Key and URL  obtained in the previous step. Example:
+   b. Once your application has subscribed and received events with a JSON formated Wi-Fi scan from your device, use the Skyhook Precision Location API to position the device. The API is based on the Python function available at: "skyhook-app" folder.
+   c. To integrate the function in your application, it is necessery first to initialize it by providing the Skyhook API Key and URL  obtained in the previous step. Example:
 
-          tf_sdk_key = '1234567893858358385skjfhsdhjfsdfkjfhsdkwu238389839834738758sZdRL' # example key obtained from TruePosition
-          tf_url = 'https://tfdemo-lg.trueposition.com:8443/wps2/location' # example url obtained from TruePosition
-          # instantiate TrueFix class
-          truefix = TrueFix(tf_sdk_key, tf_  url)
+          skyhook_sdk_key = '1234567893858358385skjfhsdhjfsdfkjfhsdkwu238389839834738758sZdRL' # example key obtained from Skyhook
+          skyhook_url = 'https://tfdemo-lg.trueposition.com:8443/wps2/location' # example url obtained from Skyhook
+          # instantiate Skyhook class
+          skyhook = Skyhook(skyhook_sdk_key, skyhook_url)
   
-    When the event with a Wi-Fi scan is available use the "truefix.getlocation()" API as shown below to locate the device:
+    When the event with a Wi-Fi scan is available use the "skyhook.getlocation()" API as shown below to locate the device:
 
        def event_callback(event):
            try:
@@ -50,14 +49,14 @@ Some more detailed steps can be found below:
                  aps = eval(event.data['wifiscan'])
                  if len(aps) == 0:
                     return
-                 fix = truefix.get_location(device_id, aps)
+                 fix = skyhookx.get_location(device_id, aps)
                  if fix is None:
                     return
               print(str(fix))
       
            except Exception, ex:
            print 'exception in event_callback:', ex
-The truefix.getlocation() includes two parameters:
+The skyhook.getlocation() includes two parameters:
     device_id: id of the device. This can be the device mac address or Watson allocated ID or any other unqiue ID.
     aps: array of wifi access-points in the following format: [[mac, rssi, ssid], [mac, rssi, ssid]] 
     example: [['001a1ee99745', '-47', 'tp-wpa2'], ['001a1ee99744', '-47', 'tp-wpa']]
