@@ -5,16 +5,16 @@ import sys
 import json
 import ibmiotf.application
 import ibmiotf.api
-from truefix import TrueFix
+from skyhook import Skyhook
 
-tf_sdk_key = '1234567893858358385skjfhsdhjfsdfkjfhsdkwu238389839834738758sZdRL'
-tf_url = 'https://tfdemo-lg.trueposition.com:8443/wps2/location'
+skyhook_sdk_key = '1234567893858358385skjfhsdhjfsdfkjfhsdkwu238389839834738758sZdRL'
+skyhook_url = 'https://tfdemo-lg.trueposition.com:8443/wps2/location'
 
 # app credentials to connect to watson
-tf_watson_org        = 'ABCDEF'
-tf_watson_id         = 'truefix-watson-app'
-tf_watson_auth_key   = '0912893298123892193'
-tf_watson_auth_token = '3845798wkjhjskjsjs'
+skyhook_watson_org        = 'ABCDEF'
+skyhook_watson_id         = 'truefix-watson-app'
+skyhook_watson_auth_key   = '0912893298123892193'
+skyhook_watson_auth_token = '3845798wkjhjskjsjs'
 
 def event_callback(event):
     try:
@@ -25,7 +25,7 @@ def event_callback(event):
             if len(aps) == 0:
                 return
                 
-            fix = truefix.get_location(device_id, aps)
+            fix = skyhook.get_location(device_id, aps)
             if fix is None:
                 return
         
@@ -40,10 +40,10 @@ def interrupt_handler(signal, frame):
 
 
 options = {
-    'org'         : tf_watson_org,
-    'id'          : tf_watson_id,
-    'auth-key'    : tf_watson_auth_key,
-    'auth-token'  : tf_watson_auth_token,
+    'org'         : skyhook_watson_org,
+    'id'          : skyhook_watson_id,
+    'auth-key'    : skyhook_watson_auth_key,
+    'auth-token'  : skyhook_watson_auth_token,
     'auth-method' : 'apikey'
 }
 
@@ -54,8 +54,8 @@ except Exception as e:
     print(str(e))
     sys.exit()
 
-# instantiate TrueFix class
-truefix = TrueFix(tf_sdk_key, tf_url)
+# instantiate Skyhook class
+skyhook = Skyhook(tf_sdk_key, tf_url)
 
 # subscribe to receive events from our devices
 app_client.deviceEventCallback = event_callback
