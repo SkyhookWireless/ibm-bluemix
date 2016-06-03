@@ -55,7 +55,7 @@ except Exception as e:
     sys.exit()
 
 # instantiate Skyhook class
-skyhook = Skyhook(tf_sdk_key, tf_url)
+skyhook = Skyhook(skyhook_sdk_key, skyhook_url)
 
 # subscribe to receive events from our devices
 app_client.deviceEventCallback = event_callback
