@@ -2,30 +2,30 @@
 import urllib2
 from lxml import etree, objectify
 
-class TrueFix:
-    """ This class can be used to get location from TrueFix Location Platform """
+class Skyhook:
+    """ This class can be used to get location from the Skyhook Precision Location for IoT Platform """
 
-    # TrueFix SDK Key
-    tf_sdk_key = None
+    # Skyhook SDK Key
+    skyhook_sdk_key = None
 
-    # TrueFix Location Platform URL
-    tf_url = None
+    # Skyhook Precision Location Platform URL
+    skyhook_url = None
 
-    def __init__(self, tf_sdk_key, tf_url):
-        self.tf_sdk_key = tf_sdk_key
-        self.tf_url = tf_url
+    def __init__(self, skyhook_sdk_key, skyhook_url):
+        self.skyhook_sdk_key = skyhook_sdk_key
+        self.skyhook_url = skyhook_url
 
     def __prepare_location_rq_xml(self, device_id, aps):
         if len(aps) == 0:
             return None
 
-        root_rq = etree.Element("LocationRQ", xmlns="http://trueposition.com/truefix", version="2.21")
+        root_rq = etree.Element("LocationRQ", xmlns="http://skyhookwireless.com/wps/2005", version="2.21")
         root_rq.set("street-address-lookup", "none");
         root_rq.set("profiling", "true");
 
         auth_elm = etree.SubElement(root_rq, "authentication", version="2.2")
         key_elm =  etree.SubElement(auth_elm, "key")
-        key_elm.set("key", self.tf_sdk_key);
+        key_elm.set("key", self.skyhook_sdk_key);
         key_elm.set("username", device_id);
 
         for ap in aps:
@@ -81,7 +81,7 @@ class TrueFix:
             if loc_rq is None:
                 return None
         
-            req = urllib2.Request(self.tf_url)
+            req = urllib2.Request(self.skyhook_url)
             req.add_header('Content-Type', 'text/xml')
             resp = urllib2.urlopen(req, loc_rq)
         
