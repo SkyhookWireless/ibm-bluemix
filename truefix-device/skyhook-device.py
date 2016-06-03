@@ -7,10 +7,10 @@ import json
 import ibmiotf.device
 
 # device credentials to connect to watson
-tf_watson_org         = 'abcdef'
-tf_watson_device_type = 'tf-pi'
-tf_watson_device_id   = 'tf-pi-1'
-tf_watson_auth_token  = 'ABCDEFGHIJKLMNOPQR'
+skyhook_watson_org         = 'abcdef'
+skyhook_watson_device_type = 'tf-pi'
+skyhook_watson_device_id   = 'tf-pi-1'
+skyhook_watson_auth_token  = 'ABCDEFGHIJKLMNOPQR'
 
 def wifi_scan():
     proc = subprocess.Popen(["/sbin/wpa_cli", "scan_results"], stdout=subprocess.PIPE, universal_newlines=True)
@@ -33,10 +33,10 @@ def interruptHandler(signal, frame):
 
 
 options = {
-    'org'         : tf_watson_org,
-    'type'        : tf_watson_device_type,
-    'id'          : tf_watson_device_id,
-    'auth-token'  : tf_watson_auth_token,
+    'org'         : skyhook_watson_org,
+    'type'        : skyhook_watson_device_type,
+    'id'          : skyhook_watson_device_id,
+    'auth-token'  : skyhook_watson_auth_token,
     'auth-method' : 'token'
 }
 
